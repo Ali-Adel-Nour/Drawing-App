@@ -3,6 +3,18 @@ const utils = {}
 utils.flaggedUsers=
 [16663882102141,1663900040545,1664485938]
 
+utils.styles={
+    car:{color:'gray',text:'🚗'},
+    fish:{color:'red',text:'🐟'},
+    house:{color:'yellow',text:'🏠'},
+    tree:{color:'green',text:'🌳'},
+    guitar:{color:'blue',text:'🎸'},
+    bicycle:{color:"cyan",text:'🚲'},
+    pencil:{color:'magenta',text:'✏'},
+    clock:{color:'lightgray',text:'🕖'},
+
+}
+
 utils.formatPercent = (n)=>{
     return (n*100).toFixed(2) + "%"
 }
