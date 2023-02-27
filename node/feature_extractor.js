@@ -1,45 +1,40 @@
-const features = require('../common/features')
-const constants = require('../common/constants')
-
+const constants = require('../common/constants');
+const featureFunctions = require('../common/featureFunctions');
 
 const fs = require('fs');
 
-console.log("EXTRACTING FEATURES")
-const samples = JSON.parse(
-    fs.readFileSync(constants.SAMPLES)
-)
- 
+console.log('EXTRACTING FEATURES');
+const samples = JSON.parse(fs.readFileSync(constants.SAMPLES));
+
 for (const sample of samples) {
-  const paths = JSON.parse(
-    fs.readFileSync(constants.JSON_DIR + "/" + sample.id +".json"
-  )  
-  )
+    const paths = JSON.parse(
+        fs.readFileSync(constants.JSON_DIR + '/' + sample.id + '.json')
+    );
 
-
-sample.point = [
-    features.getPathCount(paths),
-    features.getPointCount(paths)
-]
+    const functions = featureFunctions.inUse.map((f) => f.function);
+    sample.point = functions.map((f) => f(paths));
 }
 
-const featureNames=["Page Count", "Point Count"]
+const featureNames = featureFunctions.inUse.map((f) => f.name);
 
-fs.writeFileSync(constants.FEATURES,
+fs.writeFileSync(
+    constants.FEATURES,
     JSON.stringify({
         featureNames,
-        samples:samples.map(s=>{
-            return{
-            point:s.point,
-            label:s.label
-        }
-        })
+        samples: samples.map((s) => {
+            return {
+                point: s.point,
+                label: s.label,
+            };
+        }),
     })
-)
+);
 
-fs.writeFileSync(constants.FEATURES_JS,
-    `const features = 
-    ${JSON.stringify({featureNames,samples})}
+fs.writeFileSync(
+    constants.FEATURES_JS,
+    `const features =
+    ${JSON.stringify({ featureNames, samples })}
     `
-    )
+);
 
-console.log("DONE")
+console.log('DONE');
