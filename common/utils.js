@@ -89,10 +89,11 @@ utils.normalizePoints=(points,minMax)=>{
    }
    return {min,max};
 }
-utils.toCSV = (headers,samples)=>{
-   let str = headers.join(",") + "\n";
+
+utils.toCSV=(headers,samples)=>{
+   let str=headers.join(",")+"\n";
    for(const sample of samples){
-      str += sample.join(",") + "\n";
+      str+=sample.join(",")+"\n";
    }
    return str;
 }
